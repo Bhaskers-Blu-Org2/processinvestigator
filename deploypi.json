@@ -1,28 +1,30 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "workspaceName": {
-      "type": "string",
-      "defaultValue": ""
-    }
-  },
-  "resources": [
-    {
-      "apiVersion": "2015-11-01-preview",
-      "type": "Microsoft.OperationsManagement/solutions",
-      "location": "[resourceGroup().location]",
-      "name": "[Concat('ProcessInvestigator(', parameters('workspaceName'), ')')]",
-      "id": "[Concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationsManagement/solutions/ProcessInvestigator(', parameters('workspaceName'), ')')]",
-      "properties": {
-        "workspaceResourceId": "[Concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
-      },
-      "plan": {
-        "name": "[Concat('ProcessInvestigator(', parameters('workspaceName'), ')')]",
-        "product": "OMSGallery/ProcessInvestigator",
-        "promotionCode": "",
-        "publisher": "Microsoft"
-      }
-    }
-  ]
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "String"
+        },
+        "workspaceLocation": {
+            "type": "String"
+        }
+    },
+    "resources": [
+        {
+            "id": "[Concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationsManagement/solutions/ProcessInvestigator(', parameters('workspaceName'), ')')]",
+            "type": "Microsoft.OperationsManagement/solutions",
+            "name": "[Concat('ProcessInvestigator(', parameters('workspaceName'), ')')]",
+            "apiVersion": "2015-11-01-preview",
+            "location": "[parameters('workspaceLocation')]",
+            "plan": {
+                "name": "[Concat('ProcessInvestigator(', parameters('workspaceName'), ')')]",
+                "product": "OMSGallery/ProcessInvestigator",
+                "promotionCode": "",
+                "publisher": "Microsoft"
+            },
+            "properties": {
+                "workspaceResourceId": "[Concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspaceName'))]"
+            }
+        }
+    ]
 }
